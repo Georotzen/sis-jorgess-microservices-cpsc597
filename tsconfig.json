@@ -1,0 +1,14 @@
+{
+  "files": [],
+  "references": [
+    { "path": "./services/audit" },
+    { "path": "./services/gateway" },
+    { "path": "./services/identity" },
+    { "path": "./services/enrollment" },
+    { "path": "./services/grades" },
+    { "path": "./services/student-profile" },
+    { "path": "./packages/shared-dtos" },
+    { "path": "./packages/shared-errors" },
+    { "path": "./packages/shared-config" }
+  ]
+}
