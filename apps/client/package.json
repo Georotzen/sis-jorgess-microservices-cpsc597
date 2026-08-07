@@ -1,0 +1,14 @@
+{
+  "name": "@sis/client",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "build": "echo \"(add build command)\"",
+    "dev": "echo \"(add dev command)\"",
+    "lint": "echo \"(add lint command)\"",
+    "test": "echo \"(add test command)\""
+  },
+  "dependencies": {
+    "@sis/shared-dtos": "workspace:*"
+  }
+}

@@ -1,0 +1,61 @@
+{
+  "realm": "sis",
+  "enabled": true,
+  "sslRequired": "external",
+  "registrationAllowed": false,
+  "accessTokenLifespan": 300,
+  "ssoSessionIdleTimeout": 1800,
+  "ssoSessionMaxLifespan": 36000,
+  "revokeRefreshToken": true,
+  "refreshTokenMaxReuse": 0,
+
+  "bruteForceProtected": true,
+  "permanentLockout": false,
+  "maxFailureWaitSeconds": 900,
+  "minimumQuickLoginWaitSeconds": 60,
+  "waitIncrementSeconds": 60,
+  "quickLoginCheckMilliSeconds": 1000,
+  "maxDeltaTimeSeconds": 43200,
+  "failureFactor": 5, 
+
+  "roles": {
+    "realm": [
+      { "name": "student", "description": "Student — can view own enrollment/grades" },
+      { "name": "faculty", "description": "Faculty — can enter grades for own sections" },
+      { "name": "administrator", "description": "Administrator — full RBAC + user management" }
+    ]
+  },
+
+  "clients": [
+    {
+      "clientId": "sis-gateway",
+      "description": "Confidential client used by the API Gateway to introspect access tokens (OAuth2 Token Introspection, RFC 7662).",
+      "publicClient": false,
+      "standardFlowEnabled": false,
+      "directAccessGrantsEnabled": false,
+      "serviceAccountsEnabled": true,
+      "secret": "CHANGE_ME_IN_VAULT",
+      "attributes": {
+        "token.endpoint.auth.signing.alg": "RS256"
+      }
+    },
+    {
+      "clientId": "sis-identity-admin",
+      "description": "Confidential client with a service account scoped ONLY to manage-users. Used by the Identity service to create users / assign roles via the Keycloak Admin REST API. Never grant this client realm-admin.",
+      "publicClient": false,
+      "standardFlowEnabled": false,
+      "directAccessGrantsEnabled": false,
+      "serviceAccountsEnabled": true,
+      "secret": "CHANGE_ME_IN_VAULT"
+    },
+    {
+      "clientId": "sis-identity-password-grant",
+      "description": "Confidential client used server-side ONLY by the Identity service to exchange email/password for tokens on /login (Resource Owner Password Credentials grant). Never exposed to the browser/client app.",
+      "publicClient": false,
+      "standardFlowEnabled": false,
+      "directAccessGrantsEnabled": true,
+      "serviceAccountsEnabled": false,
+      "secret": "CHANGE_ME_IN_VAULT"
+    }
+  ]
+}

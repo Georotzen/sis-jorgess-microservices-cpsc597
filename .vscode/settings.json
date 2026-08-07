@@ -1,0 +1,24 @@
+{
+    "cSpell.words": [
+        "amqp",
+        "changeme",
+        "distroless",
+        "dtos",
+        "entr",
+        "fullchain",
+        "georotzen",
+        "healthcheck",
+        "isready",
+        "keepalive",
+        "keyout",
+        "newkey",
+        "nodelay",
+        "nosniff",
+        "privkey",
+        "referer",
+        "sendfile",
+        "unredacted"
+    ],
+    "git.ignoreLimitWarning": true,
+    "json.schemaDownload.enable": true
+}

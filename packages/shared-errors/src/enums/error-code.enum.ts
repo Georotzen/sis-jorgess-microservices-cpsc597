@@ -1,0 +1,28 @@
+/**
+ * Stable, machine-readable error codes returned to clients alongside
+ * the HTTP status. Codes are append-only — never renumber or repurpose
+ * an existing value, since clients and logs may depend on it.
+ */
+export enum ErrorCode {
+  // Generic
+  INTERNAL_ERROR = 'ERR_INTERNAL',
+  VALIDATION_FAILED = 'ERR_VALIDATION_FAILED',
+  NOT_FOUND = 'ERR_NOT_FOUND',
+  CONFLICT = 'ERR_CONFLICT',
+
+  // AuthN/AuthZ
+  UNAUTHENTICATED = 'ERR_UNAUTHENTICATED',
+  TOKEN_EXPIRED = 'ERR_TOKEN_EXPIRED',
+  TOKEN_INVALID = 'ERR_TOKEN_INVALID',
+  FORBIDDEN = 'ERR_FORBIDDEN',
+  INSUFFICIENT_ROLE = 'ERR_INSUFFICIENT_ROLE',
+
+  // Rate limiting / edge
+  RATE_LIMITED = 'ERR_RATE_LIMITED',
+
+  // Domain-specific
+  ENROLLMENT_CAPACITY_EXCEEDED = 'ERR_ENROLLMENT_CAPACITY_EXCEEDED',
+  ENROLLMENT_ALREADY_EXISTS = 'ERR_ENROLLMENT_ALREADY_EXISTS',
+  GRADE_NOT_INSTRUCTOR_OF_RECORD = 'ERR_GRADE_NOT_INSTRUCTOR_OF_RECORD',
+  PROFILE_FIELD_ENCRYPTION_FAILURE = 'ERR_PROFILE_FIELD_ENCRYPTION_FAILURE',
+}

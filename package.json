@@ -1,0 +1,20 @@
+{
+  "name": "sis-platform-georotzen",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Student Information System",
+  "scripts": {
+    "build": "turbo run build",
+    "dev": "turbo run dev",
+    "lint": "turbo run lint",
+    "test": "turbo run test"
+  },
+  "keywords": ["NextJS", "NestJS", "NGINX API Gateway", "Postgres"],
+  "author": "Jorge Sanchez / Software Engineer",
+  "license": "ISC",
+    "devDependencies": {
+    "turbo": "^2.0.0",
+    "typescript": "^5.5.0"
+  },
+  "packageManager": "pnpm@10.11.0"
+}
