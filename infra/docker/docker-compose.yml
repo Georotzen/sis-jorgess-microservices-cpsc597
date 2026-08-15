@@ -188,19 +188,26 @@ services:
   # Run infra/nginx/generate-dev-cert.sh once before first bringing
   # this up — see infra/nginx/README.md.
   #
-  # `client` is referenced in nginx.conf's upstream block but not yet
-  # defined as a compose service (Phase 5). Nginx will start fine
-  # regardless — upstream resolution happens per-request, not at
-  # startup — but any route that isn't one of the `/identity`,
-  # `/student-profile`, `/enrollment`, `/grades`, `/audit`, `/health`
-  # prefixes will 502 until the `client` service is added here too.
+  # Phase 5: Static Next.js client, built as pure static output (no runtime)
+  client:
+    build:
+      context: ../../
+      dockerfile: apps/client/
+    expose:
+      - "3000"
+    networks: [sis-net]
+    restart: unless-stopped
+
   nginx:
     image: nginx:1.27-alpine
     volumes:
       - ../nginx/nginx.conf:/etc/nginx/nginx.conf:ro
       - ../nginx/certs:/etc/nginx/certs:ro
+      - /dev/null:/etc/nginx/conf.d/default.conf:ro
     depends_on:
       gateway:
+        condition: service_started
+      client:
         condition: service_started
     ports:
       - "8888:80"
@@ -226,11 +233,13 @@ services:
       dockerfile: services/identity/Dockerfile
     env_file: ../../services/identity/.env
     environment:
-      DATABASE_HOST: host.docker.internal
+      DATABASE_HOST: identity-db
       DATABASE_PORT: 5432
       DATABASE_USER: identity_svc
       DATABASE_PASSWORD: changeme
       DATABASE_NAME: identity
+    ports:
+      - "3001:3001"
     depends_on:
       identity-db:
         condition: service_healthy

@@ -1,11 +1,13 @@
 {
   "compilerOptions": {
-    "module": "commonjs",
+    "types": ["jest", "node"],
+    "module": "ESNext",
     "target": "ES2021",
     "outDir": "dist",
     "rootDir": "src",
     "declaration": false,
-    "moduleResolution": "node",
+    "ignoreDeprecations": "5.0",    
+    "moduleResolution": "Bundler",
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "strict": true,
@@ -13,5 +15,8 @@
     "skipLibCheck": true,
     "resolveJsonModule": true
   },
-  "include": ["src/**/*.ts"]
+  "include": ["next-env.d.ts","src/**/*.ts","**/*.tsx"],
+  "exclude": ["node_modules"]
 }
+
+

@@ -30,15 +30,15 @@ export function getServiceTargets(config: ConfigService): ServiceTarget[] {
     },
     {
       prefix: 'student-profile',
-      target: config.get<string>('STUDENT_PROFILE_SERVICE_URL', 'http://student-profile:3000'),
+      target: config.get<string>('STUDENT_PROFILE_SERVICE_URL', 'http://student-profile:3002'),
     },
     {
       prefix: 'enrollment',
-      target: config.get<string>('ENROLLMENT_SERVICE_URL', 'http://enrollment:3000'),
+      target: config.get<string>('ENROLLMENT_SERVICE_URL', 'http://enrollment:3005'),
     },
     {
       prefix: 'grades',
-      target: config.get<string>('GRADES_SERVICE_URL', 'http://grades:3000'),
+      target: config.get<string>('GRADES_SERVICE_URL', 'http://grades:3003'),
     },
   ];
 }

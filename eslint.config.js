@@ -1,11 +1,22 @@
-// eslint.config.js
 import tseslint from "@typescript-eslint/eslint-plugin";
 import tsParser from "@typescript-eslint/parser";
 
 export default [
+  // Config files that don't need TypeScript project context
   {
-    files: ["**/*.ts"],
-    ignores: ["node_modules/**", "dist/**"],
+    files: ["eslint.config.js", "prettier.config.js", "*.config.{js,ts}"],
+    languageOptions: {
+      parser: tsParser,
+      parserOptions: {
+        ecmaVersion: 2020,
+        sourceType: 'module',
+      },
+    },
+  },
+  // Main source files that need TypeScript project context
+  {
+    files: ["**/*.{ts,tsx,js,jsx}"],
+    ignores: ["node_modules/**", "dist/**", ".next/**", "**/*.config.js", "**/*.config.ts"],
 
     languageOptions: {
       parser: tsParser,
@@ -13,9 +24,15 @@ export default [
         tsconfigRootDir: process.cwd(),
         project: [
           "./tsconfig.json",
+          "./apps/*/tsconfig.json",
           "./services/*/tsconfig.json",
           "./packages/*/tsconfig.json",
         ],
+        ecmaFeatures: {
+          jsx: true,
+        },
+        ecmaVersion: 2020,
+        sourceType: 'module',
       },
     },
 

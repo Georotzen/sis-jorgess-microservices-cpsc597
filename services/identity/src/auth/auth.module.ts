@@ -1,11 +1,11 @@
 import { Module } from '@nestjs/common';
 import { PassportModule } from '@nestjs/passport';
-import { AuthController } from './auth.controller';
-import { AuthService } from './auth.service';
-import { KeycloakClient } from './keycloak-admin.client';
-import { JwtStrategy } from './strategies/jwt.strategy';
-import { UsersModule } from '../users/users.module';
-import { AuditModule } from '../audit/audit.module';
+import { AuthController } from './auth.controller.js';
+import { AuthService } from './auth.service.js';
+import { KeycloakClient } from './keycloak-admin.client.js';
+import { JwtStrategy } from './strategies/jwt.strategy.js';
+import { UsersModule } from '../users/users.module.js';
+import { AuditModule } from '../audit/audit.module.js';
 
 @Module({
   imports: [PassportModule, UsersModule, AuditModule],

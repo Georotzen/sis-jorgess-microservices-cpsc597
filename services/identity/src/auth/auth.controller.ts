@@ -7,10 +7,10 @@ import {
   Role,
   AuthenticatedUser,
 } from '@sis/shared-dtos';
-import { AuthService } from './auth.service';
-import { JwtAuthGuard } from './guards/jwt-auth.guard';
-import { RolesGuard } from './guards/roles.guard';
-import { Roles } from './decorators/roles.decorator';
+import { AuthService } from './auth.service.js';
+import { JwtAuthGuard } from './guards/jwt-auth.guard.js';
+import { RolesGuard } from './guards/roles.guard.js';
+import { Roles } from './decorators/roles.decorator.js';
 
 @Controller('identity')
 export class AuthController {

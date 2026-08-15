@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { APP_GUARD } from '@nestjs/core';
 import { ConfigModule } from '@nestjs/config';
+import { IdentityController } from './identity.controller';
 import { ThrottlerModule, ThrottlerGuard } from '@nestjs/throttler';
 import { HealthController } from './health/health.controller';
 import { AuthDemoController } from './auth/auth-demo.controller';
@@ -18,8 +19,9 @@ import { ProxyModule } from './proxy/proxy.module';
         limit: Number(process.env.THROTTLE_LIMIT ?? 100),
       },
     ]),
+    ProxyModule,
   ],
-  controllers: [HealthController, AuthDemoController],
+  controllers: [IdentityController,HealthController, AuthDemoController],
   providers: [IntrospectionService,
     // Order matters: rate limit first (cheapest check, and it also
     // protects Keycloak from an introspection-flood), then authenticate,

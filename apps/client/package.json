@@ -3,12 +3,23 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "build": "echo \"(add build command)\"",
-    "dev": "echo \"(add dev command)\"",
-    "lint": "echo \"(add lint command)\"",
-    "test": "echo \"(add test command)\""
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint . --ext .ts,.tsx"
   },
   "dependencies": {
-    "@sis/shared-dtos": "workspace:*"
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "next": "^14.0.0",
+    "@tanstack/react-query": "^5.28.0",
+    "zustand": "^4.4.1",
+    "clsx": "^2.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "@types/react": "^18.2.0",
+    "@types/react-dom": "^18.2.0",
+    "typescript": "^5.5.0"
   }
 }

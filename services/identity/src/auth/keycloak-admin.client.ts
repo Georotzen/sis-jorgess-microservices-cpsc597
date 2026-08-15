@@ -168,7 +168,11 @@ export class KeycloakClient {
       );
       return res.data;
     } catch (err) {
-      if (axios.isAxiosError(err) && err.response?.status === 401) {
+      if (
+        axios.isAxiosError(err) &&
+        err.response?.status !== undefined &&
+        [400, 401].includes(err.response.status)
+      ) {
         throw new UnauthenticatedException('Invalid email or password');
       }
       throw err;

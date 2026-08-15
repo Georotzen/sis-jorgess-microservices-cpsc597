@@ -9,9 +9,9 @@ import {
   Role,
   AuditEventType,
 } from '@sis/shared-dtos';
-import { KeycloakClient } from './keycloak-admin.client';
-import { UsersService } from '../users/users.service';
-import { AuditPublisherService } from '../audit/audit-publisher.service';
+import { KeycloakClient } from './keycloak-admin.client.js';
+import { UsersService } from '../users/users.service.js';
+import { AuditPublisherService } from '../audit/audit-publisher.service.js';
 
 @Injectable()
 export class AuthService {

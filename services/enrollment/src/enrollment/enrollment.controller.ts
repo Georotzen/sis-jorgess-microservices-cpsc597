@@ -70,7 +70,7 @@ export class EnrollmentController {
   /**
    * Status transitions: a student may only move their OWN enrollment to
    * DROPPED (self-drop). Every other transition — promoting someone off
-   * the waitlist, marking COMPLETED, etc. — is Faculty/Administrator only.
+   * the wait list, marking COMPLETED, etc. — is Faculty/Administrator only.
    */
   @Patch(':id/status')
   async updateStatus(

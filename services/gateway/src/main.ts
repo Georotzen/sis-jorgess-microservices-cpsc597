@@ -9,10 +9,16 @@ async function bootstrap() {
 
   const logger = new Logger('Gateway');
 
-  // CORS for frontend + cross-service calls
+  // CORS configuration — allow specific origins when credentials are needed
+  // In development, allow localhost:3000 (Next.js dev server)
+  // In production, load from environment variable
+  const allowedOrigins = process.env.CORS_ORIGINS?.split(',') || ['http://localhost:3000'];
+
   app.enableCors({
-    origin: '*',
-    methods: 'GET,POST,PATCH,DELETE',
+    origin: allowedOrigins,
+    credentials: true,
+    methods: 'GET,POST,PATCH,DELETE,OPTIONS',
+    allowedHeaders: ['Content-Type', 'Authorization'],
   });
 
   // Global validation
@@ -25,10 +31,11 @@ async function bootstrap() {
   );
 
   // API prefix
-  app.setGlobalPrefix('api');
+  // app.setGlobalPrefix('api');
 
   await app.listen(3000);
   logger.log('Gateway service running on port 3000');
+
 }
 
 bootstrap();

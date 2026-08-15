@@ -2,7 +2,7 @@ import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { InsufficientRoleException } from '@sis/shared-errors';
 import { AuthenticatedUser, Role } from '@sis/shared-dtos';
-import { ROLES_KEY } from '../decorators/roles.decorator';
+import { ROLES_KEY } from '../decorators/roles.decorator.js';
 
 /**
  * Must run AFTER JwtAuthGuard in the guard chain (Nest runs guards in

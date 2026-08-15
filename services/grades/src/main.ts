@@ -21,5 +21,6 @@ async function bootstrap() {
 
   const port = process.env.PORT ?? 3003;
   await app.listen(port);
+  logger.log('Grades service running on port 3003');
 }
 bootstrap();

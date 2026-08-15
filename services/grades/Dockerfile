@@ -1,4 +1,4 @@
-FROM node:20-bookworm AS builder
+FROM node:20-alpine AS builder
 
 RUN npm install -g pnpm@9
 
@@ -19,6 +19,7 @@ RUN pnpm -C services/grades build
 FROM node:20-alpine
 
 RUN npm install -g pnpm@9
+ENV NODE_ENV=production
 WORKDIR /app
 
 COPY --from=builder /workspace/services/grades/dist ./dist

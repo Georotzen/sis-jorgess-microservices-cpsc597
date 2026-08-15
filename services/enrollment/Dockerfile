@@ -1,10 +1,10 @@
-FROM node:20-bookworm AS builder
-
+FROM node:20-alpine AS builder
 RUN npm install -g pnpm@9
 
 WORKDIR /workspace
 
-COPY pnpm-workspace.yaml package.json pnpm-lock.yaml ./
+COPY pnpm-workspace.yaml package.json ./
+COPY pnpm-lock.yaml ./
 COPY packages ./packages
 COPY services ./services
 
@@ -19,6 +19,7 @@ RUN pnpm -C services/enrollment build
 FROM node:20-alpine
 
 RUN npm install -g pnpm@9
+ENV NODE_ENV=production
 WORKDIR /app
 
 COPY --from=builder /workspace/services/enrollment/dist ./dist

@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { NotFoundAppException } from '@sis/shared-errors';
-import { User } from './user.entity';
+import { User } from './user.entity.js';
 
 @Injectable()
 export class UsersService {
