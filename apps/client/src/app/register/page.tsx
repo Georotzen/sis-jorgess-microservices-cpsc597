@@ -1,62 +1,46 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
-import { useAuthStore } from '@/store/auth';
 import apiCall from '@/lib/api';
 import { FormEvent, useState } from 'react';
 
-export default function LoginPage() {
-  const router = useRouter();
+/**
+ * Temporary registration page — for local testing only, to create a user
+ * you can then log in with via /login. Field names (email, password, name)
+ * match the `user` shape returned by /identity/login in page.tsx; adjust
+ * to match your actual Identity service DTO if it expects different or
+ * additional fields (e.g. confirmPassword, role).
+ */
+export default function RegisterPage() {
+  const [fullName, setFullName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const setUser = useAuthStore((state) => state.setUser);
-  const setToken = useAuthStore((state) => state.setToken);
+  const [success, setSuccess] = useState(false);
 
-  async function handleLogin(e: FormEvent) {
+  async function handleRegister(e: FormEvent) {
     e.preventDefault();
     setLoading(true);
     setError(null);
+    setSuccess(false);
 
     try {
-      // Call the Identity service via the Gateway (relative path)
-      // The Gateway proxies this to the Identity microservice
-      const response = (await apiCall('/identity/login', 'POST', { email, password })) as {
-        accessToken: string;
-        refreshToken: string;
-        expiresIn: number;
-        tokenType: string;
-      };
-      
-      // Extract token. For now, store accessToken; refreshToken can be stored separately
-      setToken(response.accessToken);
-      
-      // Decode JWT to get user info (email is in the token claims)
-      // For now, create a basic user object from the token
-      // TODO: Call /identity/me or similar to get full user profile
-      const decoded = JSON.parse(atob(response.accessToken.split('.')[1]));
-      setUser({
-        id: decoded.sub,
-        email: decoded.email || email,
-        name: decoded.name || email.split('@')[0],
-        role: decoded.realm_access?.roles?.[0] || 'student',
-      });
-
-      // Redirect to dashboard using Next.js router
-      setTimeout(() => {
-        router.push('/dashboard/');
-      }, 100);
+      // Public route per proxy.config.ts PUBLIC_PROXY_ROUTES —
+      // no token required to hit this.
+      await apiCall('/identity/register', 'POST', { fullName, email, password });
+      setSuccess(true);
     } catch (err) {
       if (err instanceof Error) {
         const status = (err as any).status;
-        if (status === 401) {
-          setError('Invalid email or password');
+        if (status === 409) {
+          setError('An account with that email already exists');
+        } else if (status === 400) {
+          setError(err.message || 'Invalid registration details');
         } else {
           setError(err.message);
         }
       } else {
-        setError('Login failed');
+        setError('Registration failed');
       }
     } finally {
       setLoading(false);
@@ -65,9 +49,26 @@ export default function LoginPage() {
 
   return (
     <div style={{ maxWidth: '400px', margin: '4rem auto', padding: '2rem', border: '1px solid #ddd', borderRadius: '8px' }}>
-      <h2>Login</h2>
+      <h2>Register</h2>
       {error && <div style={{ color: 'red', marginBottom: '1rem' }}>{error}</div>}
-      <form onSubmit={handleLogin}>
+      {success && (
+        <div style={{ color: 'green', marginBottom: '1rem' }}>
+          Account created — you can now <a href="/login">log in</a>.
+        </div>
+      )}
+      <form onSubmit={handleRegister}>
+        <div style={{ marginBottom: '1rem' }}>
+          <label>Full name:</label>
+          <input
+            type="text"
+            value={fullName}
+            onChange={(e) => setFullName(e.target.value)}
+            required
+            minLength={2}
+            maxLength={100}
+            style={{ width: '100%', padding: '0.5rem', marginTop: '0.25rem' }}
+          />
+        </div>
         <div style={{ marginBottom: '1rem' }}>
           <label>Email:</label>
           <input
@@ -89,9 +90,10 @@ export default function LoginPage() {
           />
         </div>
         <button type="submit" disabled={loading} style={{ width: '100%', padding: '0.5rem', background: '#007bff', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer' }}>
-          {loading ? 'Logging in...' : 'Login'}
+          {loading ? 'Creating account...' : 'Register'}
         </button>
       </form>
     </div>
   );
 }
+

@@ -1,4 +1,4 @@
-FROM node:22-alpine AS build
+FROM node:22-alpine
 
 WORKDIR /app
 
@@ -15,18 +15,10 @@ COPY packages ./packages
 # Install dependencies
 RUN pnpm install --frozen-lockfile
 
-# Build client (outputs to out/)
+# Build client (Next.js server-mode build, outputs to .next/)
 RUN pnpm --filter @sis/client build
-
-# Static stage: serve with lightweight nginx
-FROM nginx:1.27-alpine
-
-# Copy built static files from build stage
-COPY --from=build /app/apps/client/out /usr/share/nginx/html/
-
-# Minimal nginx config: serve static files, fallback to index.html for SPA routing
-RUN echo 'server { listen 3000; root /usr/share/nginx/html; index index.html; location / { try_files $uri /index.html; } }' > /etc/nginx/conf.d/default.conf
 
 EXPOSE 3000
 
-CMD ["nginx", "-g", "daemon off;"]
+# Run Next.js server
+CMD ["pnpm", "--filter", "@sis/client", "start"]

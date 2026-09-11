@@ -22,7 +22,7 @@ services:
     environment:
       POSTGRES_DB: keycloak
       POSTGRES_USER: keycloak
-      POSTGRES_PASSWORD: changeme
+      POSTGRES_PASSWORD: KcDb_28ffecfa7e4859d91c1b53ae67f6bc3c9e3283d955454109
     volumes:
       - keycloak-db-data:/var/lib/postgresql/data
     networks: [sis-net]
@@ -38,7 +38,7 @@ services:
     environment:
       POSTGRES_DB: identity
       POSTGRES_USER: identity_svc
-      POSTGRES_PASSWORD: changeme
+      POSTGRES_PASSWORD: IdDb_71e4882576b7b7731d5647f259fb8338e592659c26884868
     volumes:
       - identity-db-data:/var/lib/postgresql/data
     ports:
@@ -56,7 +56,7 @@ services:
     environment:
       POSTGRES_DB: student_profile
       POSTGRES_USER: student_profile_svc
-      POSTGRES_PASSWORD: changeme
+      POSTGRES_PASSWORD: SpDb_0b4e2284c078e7ad78c895dd990eb6372596c9eb38855674
     volumes:
       - student-profile-db-data:/var/lib/postgresql/data
     ports:
@@ -74,7 +74,7 @@ services:
     environment:
       POSTGRES_DB: enrollment
       POSTGRES_USER: enrollment_svc
-      POSTGRES_PASSWORD: changeme
+      POSTGRES_PASSWORD: EnDb_bab86abc7354af98272ee63bfd9ff8f1313133621602e07f
     volumes:
       - enrollment-db-data:/var/lib/postgresql/data
     ports:
@@ -92,7 +92,7 @@ services:
     environment:
       POSTGRES_DB: grades
       POSTGRES_USER: grades_svc
-      POSTGRES_PASSWORD: changeme
+      POSTGRES_PASSWORD: GrDb_69cc702325befa9be9e0ec9e97cab7c0a2a81dfebd0f2db4
     volumes:
       - grades-db-data:/var/lib/postgresql/data
     ports:
@@ -110,7 +110,7 @@ services:
     environment:
       POSTGRES_DB: audit
       POSTGRES_USER: audit_svc
-      POSTGRES_PASSWORD: changeme
+      POSTGRES_PASSWORD: AuDb_fcf8fbc2403f37751c49bdeec20c3ef80b111caface96331
     volumes:
       - audit-db-data:/var/lib/postgresql/data
     ports:
@@ -139,11 +139,11 @@ services:
     command: start-dev --import-realm
     environment:
       KEYCLOAK_ADMIN: admin
-      KEYCLOAK_ADMIN_PASSWORD: changeme
+      KEYCLOAK_ADMIN_PASSWORD: KcAdm_2a74e6736f23c7a22980e92ce5d55450d3e781d81f9cac7a
       KC_DB: postgres
       KC_DB_URL: jdbc:postgresql://keycloak-db:5432/keycloak
       KC_DB_USERNAME: keycloak
-      KC_DB_PASSWORD: changeme
+      KC_DB_PASSWORD: KcDb_28ffecfa7e4859d91c1b53ae67f6bc3c9e3283d955454109
     volumes:
       - ../keycloak/realm-export.json:/opt/keycloak/data/import/realm-export.json
     depends_on:
@@ -192,7 +192,7 @@ services:
   client:
     build:
       context: ../../
-      dockerfile: apps/client/
+      dockerfile: apps/client/Dockerfile
     expose:
       - "3000"
     networks: [sis-net]
@@ -231,13 +231,13 @@ services:
     build:
       context: ../../
       dockerfile: services/identity/Dockerfile
-    env_file: ../../services/identity/.env
+    env_file:
+      - ../../infra/secrets/identity-service.env
+      - ../../infra/secrets/identity-db.env
     environment:
       DATABASE_HOST: identity-db
-      DATABASE_PORT: 5432
-      DATABASE_USER: identity_svc
-      DATABASE_PASSWORD: changeme
-      DATABASE_NAME: identity
+#    environment:
+#      DATABASE_HOST: identity-db
     ports:
       - "3001:3001"
     depends_on:
@@ -255,12 +255,8 @@ services:
       context: ../../
       dockerfile: services/student-profile/Dockerfile
     env_file: ../../services/student-profile/.env    
-    environment:
-      DATABASE_HOST: student-profile-db
-      DATABASE_PORT: 5432
-      DATABASE_USER: student_profile_svc
-      DATABASE_PASSWORD: changeme
-      DATABASE_NAME: student_profile
+#    environment:
+#      DATABASE_HOST: student-profile-db
     depends_on:
       student-profile-db:
         condition: service_healthy
@@ -272,12 +268,8 @@ services:
       context: ../../
       dockerfile: services/enrollment/Dockerfile
     env_file: ../../services/enrollment/.env
-    environment:
-      DATABASE_HOST: enrollment-db
-      DATABASE_PORT: 5432
-      DATABASE_USER: enrollment_svc
-      DATABASE_PASSWORD: changeme
-      DATABASE_NAME: enrollment
+#    environment:
+#      DATABASE_HOST: enrollment-db
     depends_on:
       enrollment-db:
         condition: service_healthy
@@ -291,12 +283,8 @@ services:
       context: ../../
       dockerfile: services/grades/Dockerfile
     env_file: ../../services/grades/.env
-    environment:
-      DATABASE_HOST: grades-db
-      DATABASE_PORT: 5432
-      DATABASE_USER: grades_svc
-      DATABASE_PASSWORD: changeme
-      DATABASE_NAME: grades
+#    environment:
+#      DATABASE_HOST: grades-db
     depends_on:
       grades-db:
         condition: service_healthy
@@ -309,12 +297,9 @@ services:
     build:
       context: ../../
       dockerfile: services/audit/Dockerfile
-    environment:
-      DATABASE_HOST: audit-db
-      DATABASE_PORT: 5432
-      DATABASE_USER: audit_svc
-      DATABASE_PASSWORD: changeme
-      DATABASE_NAME: audit
+    env_file: ../../services/audit/.env
+#    environment:
+#      DATABASE_HOST: audit-db
     depends_on:
       audit-db:
         condition: service_healthy

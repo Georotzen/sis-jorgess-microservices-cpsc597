@@ -107,8 +107,20 @@ export class ProxyController implements OnModuleInit {
   }
 
   @Public()
-  @All(PUBLIC_PROXY_ROUTES)
-  identityPublic(@Req() req: Request, @Res() res: Response, @Next() next: NextFunction) {
+  @All('identity/register')
+  identityRegister(@Req() req: Request, @Res() res: Response, @Next() next: NextFunction) {
+    this.dispatch('identity', req, res, next);
+  }
+
+  @Public()
+  @All('identity/login')
+  identityLogin(@Req() req: Request, @Res() res: Response, @Next() next: NextFunction) {
+    this.dispatch('identity', req, res, next);
+  }
+
+  @Public()
+  @All('identity/refresh')
+  identityRefresh(@Req() req: Request, @Res() res: Response, @Next() next: NextFunction) {
     this.dispatch('identity', req, res, next);
   }
 

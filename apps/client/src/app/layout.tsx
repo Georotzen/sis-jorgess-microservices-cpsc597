@@ -1,7 +1,10 @@
+import { ReactNode } from 'react';
+import RootLayoutClient from './layout-client';
+
 export default function RootLayout({
   children,
 }: {
-  children: React.ReactNode;
+  children: ReactNode;
 }) {
   return (
     <html lang="en">
@@ -11,7 +14,7 @@ export default function RootLayout({
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </head>
       <body style={{ margin: 0, fontFamily: 'sans-serif' }}>
-        {children}
+        <RootLayoutClient>{children}</RootLayoutClient>
       </body>
     </html>
   );

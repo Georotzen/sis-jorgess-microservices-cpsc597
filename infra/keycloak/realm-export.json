@@ -34,7 +34,7 @@
       "standardFlowEnabled": false,
       "directAccessGrantsEnabled": false,
       "serviceAccountsEnabled": true,
-      "secret": "CHANGE_ME_IN_VAULT",
+      "secret": "KcCli_e63a53c9d506cf2ffd1abbad8763482bea5b7a93f012dc76",
       "attributes": {
         "token.endpoint.auth.signing.alg": "RS256"
       }
@@ -46,7 +46,7 @@
       "standardFlowEnabled": false,
       "directAccessGrantsEnabled": false,
       "serviceAccountsEnabled": true,
-      "secret": "CHANGE_ME_IN_VAULT"
+      "secret": "sis-identity-admin-secret"
     },
     {
       "clientId": "sis-identity-password-grant",
@@ -55,7 +55,7 @@
       "standardFlowEnabled": false,
       "directAccessGrantsEnabled": true,
       "serviceAccountsEnabled": false,
-      "secret": "CHANGE_ME_IN_VAULT"
+      "secret": "sis-identity-password-grant-secret"
     }
   ]
 }
