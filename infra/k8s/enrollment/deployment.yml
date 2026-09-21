@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: enrollment
+  namespace: sis
+  labels:
+    app: enrollment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: enrollment
+  template:
+    metadata:
+      labels:
+        app: enrollment
+    spec:
+      serviceAccountName: enrollment-sa
+      containers:
+      - name: enrollment
+        image: 9574/enrollment:latest
+        ports:
+        - containerPort: 3003
+        env:
+        - name: NODE_ENV
+          value: "production"

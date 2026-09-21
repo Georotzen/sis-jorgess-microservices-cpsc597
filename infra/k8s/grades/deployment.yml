@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: grades
+  namespace: sis
+  labels:
+    app: grades
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: grades
+  template:
+    metadata:
+      labels:
+        app: grades
+    spec:
+      serviceAccountName: grades-sa
+      containers:
+      - name: grades
+        image: 9574/grades:latest
+        ports:
+        - containerPort: 3004
+        env:
+        - name: NODE_ENV
+          value: "production"

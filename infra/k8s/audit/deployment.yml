@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: audit
+  namespace: sis
+  labels:
+    app: audit
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: audit
+  template:
+    metadata:
+      labels:
+        app: audit
+    spec:
+      serviceAccountName: audit-sa
+      containers:
+      - name: audit
+        image: 9574/audit:latest
+        ports:
+        - containerPort: 3005
+        env:
+        - name: NODE_ENV
+          value: "production"

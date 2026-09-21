@@ -4,6 +4,7 @@ networks:
   sis-net:
 
 volumes:
+  postgres-data:
   identity-db-data:
   student-profile-db-data:
   enrollment-db-data:
@@ -13,6 +14,30 @@ volumes:
   keycloak-db-data:
 
 services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: postgres
+    environment:
+      POSTGRES_DB: "${POSTGRES_DB}"
+      POSTGRES_USER: "${POSTGRES_USER}"
+      POSTGRES_PASSWORD: "${POSTGRES_PASSWORD}"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    ports:
+      - "5437:5432"
+    restart: always
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: "${PGADMIN_DEFAULT_EMAIL}"
+      PGADMIN_DEFAULT_PASSWORD: "${PGADMIN_DEFAULT_PASSWORD}"
+    ports:
+      - "5000:80"
+    depends_on:
+      - postgres
+    restart: always
   # ---------------------------------------------------------
   # Data Layer — One PostgreSQL instance per microservice
   # ---------------------------------------------------------
@@ -190,9 +215,10 @@ services:
   #
   # Phase 5: Static Next.js client, built as pure static output (no runtime)
   client:
-    build:
-      context: ../../
-      dockerfile: apps/client/Dockerfile
+    image: 9574/client:latest
+  #  build:
+  #    context: ../../
+  #    dockerfile: apps/client/Dockerfile
     expose:
       - "3000"
     networks: [sis-net]
@@ -217,9 +243,12 @@ services:
 
 
   gateway:
-    build:
-      context: ../../
-      dockerfile: services/gateway/Dockerfile
+    image: 9574/gateway:latest
+    ports:
+      - "3000:3000"
+  #  build:
+  #    context: ../../
+  #    dockerfile: services/gateway/Dockerfile
     env_file: ../../services/gateway/.env
     depends_on:
       keycloak:
@@ -228,18 +257,17 @@ services:
     restart: unless-stopped
 
   identity:
-    build:
-      context: ../../
-      dockerfile: services/identity/Dockerfile
+    image: 9574/identity:latest
+    ports:
+      - "3001:3001"
+  #  build:
+  #    context: ../../
+  #    dockerfile: services/identity/Dockerfile
     env_file:
       - ../../infra/secrets/identity-service.env
       - ../../infra/secrets/identity-db.env
     environment:
       DATABASE_HOST: identity-db
-#    environment:
-#      DATABASE_HOST: identity-db
-    ports:
-      - "3001:3001"
     depends_on:
       identity-db:
         condition: service_healthy
@@ -251,9 +279,12 @@ services:
     restart: unless-stopped
 
   student-profile:
-    build:
-      context: ../../
-      dockerfile: services/student-profile/Dockerfile
+    image: 9574/student-profile:latest
+    ports:
+      - "3002:3002"
+  #  build:
+  #   context: ../../
+  #    dockerfile: services/student-profile/Dockerfile
     env_file: ../../services/student-profile/.env    
 #    environment:
 #      DATABASE_HOST: student-profile-db
@@ -264,9 +295,12 @@ services:
     restart: unless-stopped
 
   enrollment:
-    build:
-      context: ../../
-      dockerfile: services/enrollment/Dockerfile
+    image: 9574/enrollment:latest
+    ports:
+      - "3003:3003"
+  #  build:
+  #    context: ../../
+  #    dockerfile: services/enrollment/Dockerfile
     env_file: ../../services/enrollment/.env
 #    environment:
 #      DATABASE_HOST: enrollment-db
@@ -279,9 +313,12 @@ services:
     restart: on-failure
 
   grades:
-    build:
-      context: ../../
-      dockerfile: services/grades/Dockerfile
+    image: 9574/grades:latest
+    ports:
+      - "3004:3004"
+  #  build:
+  #    context: ../../
+  #    dockerfile: services/grades/Dockerfile
     env_file: ../../services/grades/.env
 #    environment:
 #      DATABASE_HOST: grades-db
@@ -294,9 +331,12 @@ services:
     restart: unless-stopped
 
   audit:
-    build:
-      context: ../../
-      dockerfile: services/audit/Dockerfile
+    image: 9574/audit:latest
+    ports:
+      - "3005:3005"
+  #  build:
+  #    context: ../../
+  #    dockerfile: services/audit/Dockerfile
     env_file: ../../services/audit/.env
 #    environment:
 #      DATABASE_HOST: audit-db

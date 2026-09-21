@@ -1,0 +1,10 @@
+apiVersion: networking.istio.io/v1beta1
+kind: DestinationRule
+metadata:
+  name: gateway
+  namespace: sis
+spec:
+  host: gateway
+  trafficPolicy:
+    tls:
+      mode: ISTIO_MUTUAL

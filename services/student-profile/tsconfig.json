@@ -1,11 +1,10 @@
 {
+  "extends": "../../packages/shared-config/tsconfig.base.json",
   "compilerOptions": {
     "module": "commonjs",
     "target": "ES2021",
     "outDir": "dist",
     "rootDir": "src",
-    "declaration": false,
-    "ignoreDeprecations": "5.0",
     "moduleResolution": "node",
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
@@ -14,7 +13,8 @@
     "skipLibCheck": true,
     "resolveJsonModule": true
   },
-  "include": ["next-env.d.ts","src/**/*.ts","**/*.tsx"],
-  "exclude": ["node_modules"]
+  "include": ["src/**/*.ts"],
+  "exclude": ["node_modules", "dist"]
 }
+
 

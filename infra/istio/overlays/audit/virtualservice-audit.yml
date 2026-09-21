@@ -1,0 +1,14 @@
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: audit
+  namespace: sis
+spec:
+  hosts:
+  - audit
+  http:
+  - route:
+    - destination:
+        host: audit
+        port:
+          number: 3005

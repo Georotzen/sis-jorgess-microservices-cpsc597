@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: student-profile
+  namespace: sis
+  labels:
+    app: student-profile
+spec:
+  type: ClusterIP
+  selector:
+    app: student-profile
+  ports:
+  - name: http
+    port: 3002
+    targetPort: 3002

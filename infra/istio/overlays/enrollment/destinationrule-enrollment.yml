@@ -1,0 +1,10 @@
+apiVersion: networking.istio.io/v1beta1
+kind: DestinationRule
+metadata:
+  name: enrollment
+  namespace: sis
+spec:
+  host: enrollment
+  trafficPolicy:
+    tls:
+      mode: ISTIO_MUTUAL

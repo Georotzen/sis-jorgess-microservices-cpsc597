@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: grades
+  namespace: sis
+  labels:
+    app: grades
+spec:
+  type: ClusterIP
+  selector:
+    app: grades
+  ports:
+  - name: http
+    port: 3004
+    targetPort: 3004

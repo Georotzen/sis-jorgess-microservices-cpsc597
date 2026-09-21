@@ -1,0 +1,10 @@
+apiVersion: networking.istio.io/v1beta1
+kind: DestinationRule
+metadata:
+  name: student-profile
+  namespace: sis
+spec:
+  host: student-profile
+  trafficPolicy:
+    tls:
+      mode: ISTIO_MUTUAL

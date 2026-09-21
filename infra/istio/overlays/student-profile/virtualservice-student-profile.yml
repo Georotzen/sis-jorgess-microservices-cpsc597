@@ -1,0 +1,14 @@
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: student-profile
+  namespace: sis
+spec:
+  hosts:
+  - student-profile
+  http:
+  - route:
+    - destination:
+        host: student-profile
+        port:
+          number: 3002

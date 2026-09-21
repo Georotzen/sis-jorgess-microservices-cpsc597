@@ -1,19 +1,29 @@
 {
+      "json.schemas": [
+    {
+      "fileMatch": ["turbo.json"],
+      "url": "https://turbo.build/schema.json"
+    }
+  ],
     "cSpell.words": [
         "amqp",
         "changeme",
+        "cpsc",
         "distroless",
+        "dpage",
         "dtos",
         "entr",
         "fullchain",
         "georotzen",
         "healthcheck",
         "isready",
+        "jorgess",
         "keepalive",
         "keyout",
         "newkey",
         "nodelay",
         "nosniff",
+        "pgadmin",
         "privkey",
         "referer",
         "sendfile",

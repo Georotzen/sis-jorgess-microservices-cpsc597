@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: student-profile
+  namespace: sis
+  labels:
+    app: student-profile
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: student-profile
+  template:
+    metadata:
+      labels:
+        app: student-profile
+    spec:
+      serviceAccountName: student-profile-sa
+      containers:
+      - name: student-profile
+        image: 9574/student-profile:latest
+        ports:
+        - containerPort: 3002
+        env:
+        - name: NODE_ENV
+          value: "production"

@@ -1,0 +1,14 @@
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: grades
+  namespace: sis
+spec:
+  hosts:
+  - grades
+  http:
+  - route:
+    - destination:
+        host: grades
+        port:
+          number: 3004

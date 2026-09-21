@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: identity
+  namespace: sis
+  labels:
+    app: identity
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: identity
+  template:
+    metadata:
+      labels:
+        app: identity
+    spec:
+      serviceAccountName: identity-sa
+      containers:
+      - name: identity
+        image: georotzen/identity-service:latest   # ← adjust to your actual image
+        ports:
+        - containerPort: 3000                      # ← adjust if identity uses a different port
+        env:
+        - name: NODE_ENV
+          value: "production"

@@ -1,0 +1,14 @@
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: enrollment
+  namespace: sis
+spec:
+  hosts:
+  - enrollment
+  http:
+  - route:
+    - destination:
+        host: enrollment
+        port:
+          number: 3003

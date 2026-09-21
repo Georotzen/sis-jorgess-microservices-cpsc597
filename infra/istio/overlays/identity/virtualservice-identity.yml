@@ -1,0 +1,14 @@
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: identity
+  namespace: sis
+spec:
+  hosts:
+  - identity
+  http:
+  - route:
+    - destination:
+        host: identity
+        port:
+          number: 3001

@@ -1,0 +1,14 @@
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: grades-allow-identity
+  namespace: sis
+spec:
+  selector:
+    matchLabels:
+      app: grades
+  action: ALLOW
+  rules:
+  - from:
+    - source:
+        principals: ["cluster.local/ns/sis/sa/identity-sa"]
