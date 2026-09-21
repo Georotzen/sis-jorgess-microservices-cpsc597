@@ -4,7 +4,7 @@ import tsParser from "@typescript-eslint/parser";
 export default [
   // Config files that don't need TypeScript project context
   {
-    files: ["eslint.config.js", "prettier.config.js", "*.config.{js,ts}"],
+    files: ["eslint.config.js", "prettier.config.js", "*.config.{js,ts}", "services/**/src/*.config.ts"],
     languageOptions: {
       parser: tsParser,
       parserOptions: {
@@ -16,7 +16,7 @@ export default [
   // Main source files that need TypeScript project context
   {
     files: ["**/*.{ts,tsx,js,jsx}"],
-    ignores: ["node_modules/**", "dist/**", ".next/**", "**/*.config.js", "**/*.config.ts"],
+    ignores: ["node_modules/**", "dist/**", ".next/**", "**/*.config.js", "**/*.config.ts", "services/**/src/*.config.ts"],
 
     languageOptions: {
       parser: tsParser,
